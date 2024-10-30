@@ -1,52 +1,20 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './hooks/hooks';
+import { fetchPosts } from './store/postsSlice';
+
 import './styles/App.css';
-
-interface IPost {
-  _id: string;
-  title: string;
-  text: string;
-  tags: string[];
-  viewsCount: number;
-  user: {
-    _id: string;
-    fullName: string;
-    avatarUrl: string;
-  }
-}
-
-interface IPostsResponse {
-  success: boolean;
-  posts: IPost[]
-}
 
 function App() {
 
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const fetchPosts = async () => {
-    try {
-      const response = await axios.get<IPostsResponse>('/api/post');
-      if (response.data.success) {
-        setPosts(response.data.posts);
-        setIsLoading(false);
-      }
-      console.error('Запрос не удался');
-    } catch (error) {
-      console.error('Ошибка при получении данных:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.postReducer.posts);
+  const isLoading = useAppSelector((state) => state.postReducer.isLoading)
 
   useEffect(() => {
-    fetchPosts()
-  }, []);
+    dispatch(fetchPosts())
+  }, [dispatch])
 
-  if (isLoading) {
-    return <h3>Loading ...</h3>
-  }
+  if (isLoading) return <h3>Loading ...</h3>
 
   return (
     <div className="app">
