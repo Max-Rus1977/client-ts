@@ -25,11 +25,16 @@ interface IPostsResponse {
   error: string | null | undefined;
 }
 
+const API_URL = process.env.REACT_APP_API_URL;
+if (!API_URL) {
+  throw new Error('REACT_APP_API_URL не определена');
+}
+
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<IObjPost>('/api/post');
+      const response = await axios.get<IObjPost>(`${API_URL}`);
       if (response.data.success) {
         return response.data.posts;
       } else {
