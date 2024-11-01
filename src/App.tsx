@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import './styles/App.css';
+import Header from './components/header/Header';
 
 function App() {
   return (
     <div className="app">
-      <h2>MAX blog</h2>
+      <Header />
       <Outlet />
     </div>
   );
