@@ -5,11 +5,12 @@ import { fetchOnePost } from '../../store/posts/thunks';
 
 const PostDetail = () => {
   const dispatch = useAppDispatch();
+
   const post = useAppSelector(state => state.postReducer.selectedPost);
   const isLoading = useAppSelector(state => state.postReducer.isLoading);
+  const error = useAppSelector(state => state.postReducer.error);
 
   const { id } = useParams<{ id: string }>();
-  const error = useAppSelector(state => state.postReducer.error);
 
   useEffect(() => {
     if (id) {
