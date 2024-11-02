@@ -1,0 +1,28 @@
+.container {
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.navbar ul li {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  padding-bottom: 5px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.navbar ul li:hover,
+.navbar ul li.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}

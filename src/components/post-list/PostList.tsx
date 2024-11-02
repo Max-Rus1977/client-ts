@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypesHooks';
 
 import { fetchPosts } from '../../store/posts/thunks';
-import PostItem from '../post-item/PostItem';
+import PostItem from './PostItem';
 
-const PostList = () => {
+const PostList: FC = () => {
   const dispatch = useAppDispatch();
 
   const posts = useAppSelector((state) => state.postReducer.posts);
