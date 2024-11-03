@@ -4,7 +4,7 @@ import App from './App';
 import PostDetail from './components/post-detail/PostDetail';
 import ErrorPage from "./components/error-page/ErrorPage";
 import PostList from "./components/post-list/PostList";
-import Login from "./components/auth/Login";
+import Login from "./components/auth/Register";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
         element: <PostDetail />,
       },
       {
-        path: 'auth/login',
+        path: 'auth/register',
         element: <Login />
       }
     ]

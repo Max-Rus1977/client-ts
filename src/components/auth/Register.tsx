@@ -3,12 +3,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-interface IDataLogin {
-  fullName: string;
-  email: string;
-  password: string;
-  avatar?: FileList;
-}
+import { IDataRegister } from '../../@types/auth';
+import styles from './auth.module.css';
+
 
 const schema = yup.object({
   fullName: yup
@@ -25,16 +22,16 @@ const schema = yup.object({
     .required('Введете пароль, обязательное поле'),
 }).required();
 
-const Login: FC = () => {
+const Register: FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError
-  } = useForm<IDataLogin>({ resolver: yupResolver(schema) });
+  } = useForm<IDataRegister>({ resolver: yupResolver(schema) });
 
 
-  const onSubmit: SubmitHandler<IDataLogin> = (data) => {
+  const onSubmit: SubmitHandler<IDataRegister> = (data) => {
     const { fullName, email, password, avatar } = data;
     const validImageTypes =
       ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -54,7 +51,11 @@ const Login: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3>Регистрация</h3>
       <input {...register('fullName')} placeholder='FullName' />
       {errors.fullName && <p>{errors.fullName.message}</p>}
       <input {...register('email')} placeholder='Email' />
@@ -68,4 +69,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default Register;

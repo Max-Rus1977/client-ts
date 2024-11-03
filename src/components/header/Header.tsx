@@ -7,15 +7,17 @@ const Header = () => {
       <div className="box-content">
         <div className={styles.boxLogoLogin}>
           <div className={styles.logo}>
-            <h1>maxBLOG</h1>
+            <Link to={'/'}>
+              <h1>maxBLOG</h1>
+            </Link>
           </div>
           <nav className={styles.auth}>
             {/*  
             * *TODO*: Подключить маршруты 'auth/login' и 'auth/register' 
             * после создания страниц авторизации и регистрации 
             */}
-            <Link to={'auth/login'} className={styles.loginBtn}>Log In</Link>
-            <Link to={'#'} className={styles.signUpBtn}>Sign Up</Link>
+            <Link to={'#'} className={styles.loginBtn}>Log In</Link>
+            <Link to={'auth/register'} className={styles.signUpBtn}>Sign Up</Link>
           </nav>
         </div>
 
