@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypesHooks';
 
-import { fetchPosts } from '../../store/posts/thunks';
+import { fetchPosts } from '../../store/posts/postThunks';
 import PostItem from './PostItem';
 
 const PostList: FC = () => {

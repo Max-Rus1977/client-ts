@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IPostsResponse } from '../../@types/post';
-import { fetchPosts, fetchOnePost } from './thunks';
+import { fetchPosts, fetchOnePost } from './postThunks';
 
 const initialState: IPostsResponse = {
   isLoading: true,

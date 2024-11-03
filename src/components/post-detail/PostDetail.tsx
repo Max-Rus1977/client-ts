@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypesHooks';
 import { useParams } from 'react-router-dom';
-import { fetchOnePost } from '../../store/posts/thunks';
+import { fetchOnePost } from '../../store/posts/postThunks';
 
 const PostDetail = () => {
   const dispatch = useAppDispatch();
