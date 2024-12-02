@@ -1,54 +1,60 @@
-import { FC } from 'react';
+import { FC, useState, ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypesHooks';
+import { registerUser } from '../../store/auth/authThunks';
 
 import { IDataRegister } from '../../@types/auth';
+import { registerSchema } from '../../schemas/authSchema';
 import styles from './auth.module.css';
 
-
-const schema = yup.object({
-  fullName: yup
-    .string()
-    .min(3, 'Минимальная длина имени не менее 3 символов')
-    .required('Введете имя, обязательное поле'),
-  email: yup
-    .string()
-    .email('Неверный формат email')
-    .required('Введете email, обязательное поле'),
-  password: yup
-    .string()
-    .min(3, 'Минимальная длина имени не менее 3 символов')
-    .required('Введете пароль, обязательное поле'),
-}).required();
-
 const Register: FC = () => {
+  const [avatar, setAvatar] = useState<IDataRegister['avatar']>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError
-  } = useForm<IDataRegister>({ resolver: yupResolver(schema) });
+  } = useForm<IDataRegister>({ resolver: yupResolver(registerSchema) });
 
+  const dispatch = useAppDispatch();
+
+  // const newUser = useAppSelector(state => state.authReducer.user);
+  const isLoading = useAppSelector(state => state.authReducer.isLoading);
+  // const isAuthenticated = useAppSelector(state => state.authReducer.isAuthenticated);
+  const error = useAppSelector(state => state.authReducer.error);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    // Добавляем знак ?, чтобы избежать ошибок, если files === null
+    const file = event.target.files?.[0];
+    setAvatar(file);
+  }
 
   const onSubmit: SubmitHandler<IDataRegister> = (data) => {
-    const { fullName, email, password, avatar } = data;
+    const { fullName, email, password } = data;
     const validImageTypes =
-      ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
 
-    let file;
-    if (avatar && avatar[0]) {
-      file = avatar[0];
-      if (!validImageTypes.includes(file.type)) {
+    if (avatar instanceof File) {
+      if (!validImageTypes.includes(avatar.type)) {
         setError(
           'avatar',
-          { message: 'Файл должен быть изображением (jpeg, png, gif, webp)' })
+          { message: 'Файл должен быть изображением (jpeg, png, jpg, webp)' })
         return;
       }
-      console.log(file);
+      if (avatar.size > 2 * 1024 * 1024) {
+        setError('avatar', { message: 'Размер файла не должен превышать 2MB' })
+        return;
+      }
     }
-    console.log({ fullName, email, password, file });
+
+    dispatch(registerUser({ fullName, email, password, avatar }));
   };
+
+  if (isLoading) return <h3>Loading ...</h3>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <form
@@ -62,7 +68,7 @@ const Register: FC = () => {
       {errors.email && <p>{errors.email.message}</p>}
       <input {...register('password')} type='password' placeholder='Password' />
       {errors.password && <p>{errors.password.message}</p>}
-      <input {...register('avatar')} type='file' placeholder='Avatar' />
+      <input type='file' onChange={handleFileChange} placeholder='Avatar' />
       {errors.avatar && <p>{errors.avatar.message}</p>}
       <button type="submit">Submit</button>
     </form >

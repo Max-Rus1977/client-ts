@@ -5,7 +5,7 @@ import {registerUser} from './authThunks';
 interface IAuthState {
   user: IDataRegister | null;
   isLoading: boolean;
-  error: string | undefined | null;
+  error: string | null;
   isAuthenticated: boolean; 
 }
 
@@ -24,14 +24,15 @@ const authSlice = createSlice({
     builder
     .addCase(registerUser.pending, (state)=> {
       state.isLoading = true;
-      state.error = null;
     })
     .addCase(registerUser.fulfilled, (state, action)=> {
       state.isLoading = false;
+      state.user = action.payload;
+      state.isAuthenticated = true;
     })
     .addCase(registerUser.rejected, (state, action)=> {
       state.isLoading = false;
-      state.error = action.error.message;
+      state.error = action.payload as string || action.error.message || null;;
     })
   }
 });
