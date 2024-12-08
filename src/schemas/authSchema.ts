@@ -14,3 +14,13 @@ export const registerSchema = yup.object({
     .min(3, 'Минимальная длина имени не менее 3 символов')
     .required('Введете пароль, обязательное поле'),
 }).required();
+
+export const loginSchema = yup.object({
+  email: yup
+  .string()
+  .email('Неверный формат email')
+  .required('Это обязательное поле'),
+  password: yup
+  .string()
+  .required('Не введён пароль')
+}).required();

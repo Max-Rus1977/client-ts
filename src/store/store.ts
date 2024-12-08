@@ -1,11 +1,19 @@
 import {configureStore} from '@reduxjs/toolkit';
 import postSlice from './posts/postsSlice';
-import authSlice from './auth/authSlice';
+import registerSlice from './auth/registerSlice';
+import loginSlice from './auth/loginSlice';
+
+/**
+ * Отдельное подключение слайсов для большей наглядности
+ * Альтернативный подход: объединить login, register и auth в объект authReducers,
+ * а затем использовать state.auth.login, state.auth.register и т.д.
+ **/
 
 export const store = configureStore({
   reducer: {
     postReducer: postSlice,
-    authReducer: authSlice,
+    registerReducer: registerSlice,
+    loginReducer: loginSlice,
   }
 });
 

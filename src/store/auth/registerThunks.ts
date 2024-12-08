@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IDataRegister } from '../../@types/auth';
 
@@ -24,8 +24,6 @@ export const registerUser = createAsyncThunk(
   'auth/authRegister',
   async (newUser: IDataRegister, {dispatch, rejectWithValue}) => {
     try {
-      console.log(newUser.avatar);
-      
       if (newUser.avatar) {
         const file = newUser.avatar;
         const avatarResponse = await dispatch(uploadImage(file)).unwrap();
@@ -37,8 +35,13 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post<IDataRegister>('/api/auth/register', newUser)
       return response.data
     } catch (error) {
-      console.error(error);
-      return rejectWithValue('Ошибка регистрации');
+      if (error instanceof AxiosError) {
+        console.error(error);
+        return rejectWithValue(error.response?.data || 'Ошибка регистрации')
+      }
+
+      console.error('Неизвестная ошибка:', error)
+      return rejectWithValue('Ошибка регистрации')
     }
   }
 );

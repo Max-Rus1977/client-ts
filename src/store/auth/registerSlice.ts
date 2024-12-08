@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IDataRegister } from "../../@types/auth";
-import {registerUser} from './authThunks';
+import {registerUser} from './registerThunks';
 
 interface IAuthState {
   user: IDataRegister | null;
@@ -16,8 +16,8 @@ const initialState: IAuthState = {
   isAuthenticated: false, // Флаг, показывающий, авторизован пользователь или нет
 }
 
-const authSlice = createSlice({
-  name: 'auth',
+const registerSlice = createSlice({
+  name: 'register',
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -37,4 +37,4 @@ const authSlice = createSlice({
   }
 });
 
-export default authSlice.reducer
+export default registerSlice.reducer

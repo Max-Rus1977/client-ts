@@ -16,7 +16,7 @@ const Header = () => {
             * *TODO*: Подключить маршруты 'auth/login' и 'auth/register' 
             * после создания страниц авторизации и регистрации 
             */}
-            <Link to={'#'} className={styles.loginBtn}>Log In</Link>
+            <Link to={'auth/login'} className={styles.loginBtn}>Log In</Link>
             <Link to={'auth/register'} className={styles.signUpBtn}>Sign Up</Link>
           </nav>
         </div>

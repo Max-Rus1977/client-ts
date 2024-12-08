@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxTypesHooks';
-import { registerUser } from '../../store/auth/authThunks';
+import { registerUser } from '../../store/auth/registerThunks';
 
 import { IDataRegister } from '../../@types/auth';
 import { registerSchema } from '../../schemas/authSchema';
@@ -22,9 +22,9 @@ const Register: FC = () => {
   const dispatch = useAppDispatch();
 
   // const newUser = useAppSelector(state => state.authReducer.user);
-  const isLoading = useAppSelector(state => state.authReducer.isLoading);
+  const isLoading = useAppSelector(state => state.registerReducer.isLoading);
   // const isAuthenticated = useAppSelector(state => state.authReducer.isAuthenticated);
-  const error = useAppSelector(state => state.authReducer.error);
+  const error = useAppSelector(state => state.registerReducer.error);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     // Добавляем знак ?, чтобы избежать ошибок, если files === null
@@ -50,7 +50,7 @@ const Register: FC = () => {
       }
     }
 
-    dispatch(registerUser({ fullName, email, password, avatar }));
+    registerUser({ fullName, email, password, avatar })
   };
 
   if (isLoading) return <h3>Loading ...</h3>;
